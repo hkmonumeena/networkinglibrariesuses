@@ -1,0 +1,37 @@
+val dataParts: MutableCollection<DataPart> = mutableListOf()
+
+ val imgList = PathUtil.getListOfFiles(data.clipData,this,5)
+                   imgList.forEach { 
+                       dataParts.add(FileDataPart(it,name = "images[]"))
+                   }
+
+  fun uploadIMG() {
+        Log.e("fdfdfddf", "uploadIMG: " + dataParts)
+        Log.e("fdfdfddf", "uploadIMG: " + dataParts.size)
+        val formData = listOf(
+                "title" to "sim",
+                "title_en" to "sim",
+                "details" to "sim",
+                "details_en" to "sim",
+                "price" to "100",
+                "oldprice" to "100",
+                "color" to "Red, White",
+                "size" to "XL",
+                "qty" to "1"
+        )
+
+        Fuel.upload("", parameters = formData)
+                .plus(dataParts)
+                .authentication()
+                .bearer("jE2NDA3OTE1MTN9-HrI")
+                .responseString { result ->
+                    try {
+                        Log.e("fjdkjk", "uploadMedia: " + result.get())
+                        Log.e("fjdkjk", "uploadMedia: " + result.component2()?.exception?.message)
+                        //   binding.textViewData.text = result.get()
+                    } catch (e: Exception) {
+                        Log.e("fjdkjk", "uploadMedia: " + result.get())
+                        Log.e("fjdkjk", "uploadMedia: " + result.component2()?.exception?.message)
+                    }
+                }
+    }
